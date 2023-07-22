@@ -64,7 +64,14 @@
                     </a>    
 
                     <div class="button-container">
-                        <button data-product={{product.id}} data-action="add" class="py-2 px-4 bg-pink-500 text-lg rounded-xl text-white add-btn update-cart">Add to Cart</button> 
+                        {% if request.user.is_superuser %}
+                            <div class='mt-6 pg-6 bg-gray rounded-xl'>
+                                <a href="{% url 'product:edit' product.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-purple-500 text-white rounded-xl">Edit</a>
+                                <a href="{% url 'product:delete' product.id %}" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-red-500 text-white rounded-xl">Delete</a>
+                            </div>    
+                        {% else %}
+                            <button data-product={{product.id}} data-action="add" class="py-2 px-4 bg-pink-500 text-lg rounded-xl text-white add-btn update-cart">Add to Form</button>
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}

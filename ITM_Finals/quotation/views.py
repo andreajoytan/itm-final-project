@@ -6,6 +6,8 @@ import datetime
 from .models import *
 from .forms import *
 
+from pdb import post_mortem
+
 def my_orders(request):
     my_orders=Order.objects.filter(customer = Customer.objects.get(email=request.user.email)).order_by('-id')
     return render(request, 'quotation/my_orders.html',{
@@ -64,14 +66,14 @@ def cart(request):
         'items': items,
         'order': order,
         'products':products,
-        'cartItems' :cartItems
+        'cartItems' :cartItems,
     })
 
 def checkout(request):
     if request.user.is_authenticated:
         customer = Customer.objects.get(email=request.user.email)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.OrderItem_set.all()
+        items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     
     else:
@@ -79,7 +81,7 @@ def checkout(request):
         order = {'get_cart_total':0, 'get_cart_items':0}
         cartItems = order['get_cart_items']
 
-    return render(request, 'store/checkout.html', {
+    return render(request, 'quotation/checkout.html', {
         'items' : items, 
         'order' : order,
         'cartItems' :cartItems
@@ -119,3 +121,5 @@ def updateItem(request):
 
     return JsonResponse('Item was added', safe=False)
 
+def quote_success(request):
+    return render(request, 'quotation/quote_success.html')

@@ -1,0 +1,80 @@
+{% extends 'catalog/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="mt-6 px-6 py-12 bg-purple-100 rounded-xl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="box-element">
+                <a class="btn btn-outline-dark font-semibold text-lg" href="{%url 'product:browse' %}">&#x2190; Continue Shopping</a>
+                <h2 class="text-center text-3xl font-semibold">Quotation Form</h2>
+
+                {% for item in items %}
+                <div class="cart-item">
+                    <div class="item-image">
+                        <img src="{{ item.product.image.url }}">
+                    </div>
+                    <div class="item-details">
+                        <h5 class="item-title">{{ item.product.product_name }}</h5>
+                        
+                    </div>
+                    <div class="item-total">
+                        <p><strong>Price:</strong> Php{{item.get_total | floatformat:2}}</p>
+                    </div>
+                    <div class="item-actions">
+                        <button data-product={{item.id}} data-action="remove" class="chg-quantity update-cart"> - </button>
+                        <p class="item-quantity"><strong>Quantity: </strong> {{item.quantity}}</p>
+                        <button data-product={{item.id}} data-action="add" class="chg-quantity update-cart"> + </button>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <div class="summary-section">
+                    <h4 class="summary-title">Total Number of Items: <strong>{{order.get_cart_items}}</strong></h4>
+                    <h4 class="summary-title">Total: <strong>Php {{order.get_cart_total}}</strong></h4>
+                </div>
+
+                <a style="float:right; margin:5px" class="btn btn-success px-4 py-2 text-lg font-semibold bg-purple-500 text-white hover:bg-gray-700 rounded-xl" href="{% url 'quotation:checkout' %}">Checkout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .summary-section {
+        margin-bottom: 20px;
+        border-bottom: 1px solid;
+        padding-bottom: 10px;
+    }
+    
+    .summary-title {
+        margin-bottom: 10px;
+    }
+    
+    .cart-item {
+        display: flex;
+        margin-bottom: 20px;
+    }
+    
+    .item-image {
+        flex: 1;
+    }
+    
+    .item-details {
+        flex: 2;
+        padding: 10px;
+    }
+    
+    .item-total {
+        flex: 1;
+    }
+    
+    .item-actions {
+        flex: 1;
+    }
+</style>
+
+{% endblock %}
+
+
+    
