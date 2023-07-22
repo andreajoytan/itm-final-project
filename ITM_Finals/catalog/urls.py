@@ -7,7 +7,7 @@ from .forms import LoginForm
 app_name = 'catalog'
 
 urlpatterns = [
-    path('', views.index, name="index"),
+    path('home/', views.index, name="index"),
     path('contact/', views.contact, name='contact'),
     path('terms/', views.terms, name='terms'),
     path('signup/', views.signup, name='signup'),

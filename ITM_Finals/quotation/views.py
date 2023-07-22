@@ -7,13 +7,13 @@ from .models import *
 from .forms import *
 
 def my_orders(request):
-    my_orders=Order.objects.filter(customer=request.user.customer).order_by('-id')
+    my_orders=Order.objects.filter(customer = Customer.objects.get(email=request.user.email)).order_by('-id')
     return render(request, 'quotation/my_orders.html',{
         'my_orders':my_orders,
         })
 
 def my_orders_items(request, id):
-    order=Order.objects.get(pk=id)
+    order=Order.objects.get(id=id)
     orders_items=OrderItem.objects.filter(order=order).order_by('-id')
     return render(request, 'quotation/my_orders_items.html',{
         'orders_items':orders_items,
@@ -24,7 +24,7 @@ def process_order (request):
     data = json.loads(request.body)
 
     if request.user.is_authenticated:
-        customer=request.user.customer
+        customer = Customer.objects.get(email=request.user.email)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         total = float(data['form']['total'])
         order.transaction_id = transaction_id
@@ -49,7 +49,7 @@ def process_order (request):
 
 def cart(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = Customer.objects.get(email=request.user.email)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
@@ -69,7 +69,7 @@ def cart(request):
 
 def checkout(request):
     if request.user.is_authenticated:
-        customer = request.user.customer
+        customer = Customer.objects.get(email=request.user.email)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.OrderItem_set.all()
         cartItems = order.get_cart_items
@@ -93,7 +93,7 @@ def updateItem(request):
     print('Action:', action)
     print('productId:', productId)
 
-    customer = request.user.customer
+    customer = customer = Customer.objects.get(email=request.user.email)
     print('Customer:', customer)
 
     product = Product.objects.get(id=productId) 
