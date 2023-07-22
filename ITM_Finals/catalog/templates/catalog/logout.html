@@ -1,0 +1,16 @@
+{% extends 'catalog/base.html'%}
+
+{% block title %} Welcome {% endblock %}
+
+{% block content %}
+<strong class="mb-12 text-3xl text-center">Thank you for visiting Papers and Pens.</strong>
+    <div class="mt-6 px-6 py-12 bg-purple-100 rounded-xl">
+        <h2 class="mb-12 text-3xl text-center">You've been logged out.</h2> 
+        <a href="{% url 'catalog:login' %}" style="text-decoration: underline;">
+            <p class="mb-12 text-3xl text-center"> Log in again here.</p>
+        </a>
+    </div>
+
+    
+    
+{% endblock %}
